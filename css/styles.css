@@ -14,12 +14,13 @@ img {
 }
 
 #title {
-  font-size: 30px;
-  width: 50%;
+  font-size: 25px;
+   width: 50%;
   color: #fff;
   background: #000;
-  align-content: center;
+  text-align: center;
   vertical-align: center;
+  padding: 10px;
 }
 
 #search-input {
@@ -54,8 +55,8 @@ a {
 
 #list-item:focus {
   color: #fff;
-  background-color: rgb(34, 34, 34);
-  border-color: rgb(34, 34, 34);
+  background-color: #555;
+  border-color: #444;
 }
 
 #list-item:hover {
@@ -75,25 +76,74 @@ a {
   height: 200px;
 }
 
-/* media quary here and remove this */
+/* Media queries for phone & tablet */
 
-@media (max-width: 623px) {
-  #nav-list {
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    background-image: url('img/hb.png');
+/* For Smart Phones */
+@media (max-width: 399px) {
+  #title,
+  #bs {
+    display: none;
   }
-  #nav-list:hover, #nav-list.searching {
+  #search-input {
+    width: 100%;
+  }
+  #nav-list {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background-image: url('../img/hb-small.png');
+    background-repeat: no-repeat;
+  }
+  #nav-list:hover,
+  #nav-list.searching {
     width: 300px;
     height: auto;
     padding: 5px 0px 20px 5px;
+    background-image: none !important;
   }
   #nav-list #list {
     display: none;
+    background-image: none !important;
   }
   #nav-list:hover #list,
   #nav-list.searching #list {
     display: block;
+    background-image: none !important;
+  }
+}
+
+/* For Tablets */
+@media (min-width: 400px) and (max-width: 768px) {
+
+  #title {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: clip;
+  }
+  #search-input {
+    width: 70%;
+  }
+  #nav-list {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background-image: url('../img/hb-small.png');
+    background-repeat: no-repeat;
+  }
+  #nav-list:hover,
+  #nav-list.searching {
+    width: 300px;
+    height: auto;
+    padding: 5px 0px 20px 5px;
+    background-image: none !important;
+  }
+  #nav-list #list {
+    display: none;
+    background-image: none !important;
+  }
+  #nav-list:hover #list,
+  #nav-list.searching #list {
+    display: block;
+    background-image: none !important;
   }
 }
