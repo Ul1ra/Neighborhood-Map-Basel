@@ -24,7 +24,7 @@ This is the final project of my Udacity Frontend Web Developer Nanodegree! This 
 2. Open `index.html` into 
 
 
-## References
+## References
 
 * I am very thankful for the documents of all the various Google Maps API's I looked at: <a href="https://developers.google.com/maps/documentation/">Google Maps Documentation</a>
 * A quick way to find lat/lng coordinates: <a href="https://www.latlong.net/">Lat/Lng Coordinates</a>
