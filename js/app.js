@@ -1,4 +1,4 @@
-// Let's declare our global variables
+// Declare our global variables
 let map;
 let infoWindow;
 let bounds;
@@ -20,15 +20,15 @@ function initMap() {
   ko.applyBindings(new ViewModel());
 }
 
-// Let's handle our map errors
+// Handle Map error if map is unable to load
 function googleMapsError() {
-  alert('Huston, there is an issue with the map! Please refresh the page or try again later');
+  alert('There is an error loading the map. Please refresh the page or try again later.');
 }
 
-// don't repeat foresquare alert's
+// Doesn't repeat foresquare alert's
 let foreSquareAlert = false;
 
-// Let's connect our Model
+// Connecting markers 
 let LocationMarker = function (info) {
   let self = this;
 
@@ -40,17 +40,17 @@ let LocationMarker = function (info) {
 
   this.visible = ko.observable(true);
 
-  // Let's style the markers starting with
+  // Standard marker color as oragne
   let defaultIcon = makeMarkerIcon('FF9E00');
 
-  // Now let's change the marker colour when the marker is hovered on
+  // On hover change color to cyan
   let highlightedIcon = makeMarkerIcon('00E8FF');
 
-  // Let's add the Foursquare API credentials
+  // Foursquare API credentials
   let clientID = 'FGYJU0GNVOJI3JRWRDK3B2YPOSHBIR5BWHHXQVZ0MJDLJPRL';
   let clientSecret = 'TGVUBOID1KLIUBADAERVHHSXEZPGVADAXXMEWWFGPIFR3JP2';
 
-  // Let's get the JSON request from foursquare
+  // Request informaiton from Foursquare API
   let foresquareSearchURL = 'https://api.foursquare.com/v2/venues/search?ll=' 
    + this.position.lat + ',' 
    + this.position.lng 
@@ -59,12 +59,15 @@ let LocationMarker = function (info) {
    + '&v=20180522' 
    + '&query=' + this.title;
 
+   // JSON request from Foursquare
   $.getJSON(foresquareSearchURL).done(function (info) {
     let results = info.response.venues[0];
     self.street = results.location.formattedAddress[0] ? results.location.formattedAddress[0] : '';
     self.city = results.location.formattedAddress[1] ? results.location.formattedAddress[1] : '';
     self.phone = results.contact.formattedPhone ? results.contact.formattedPhone : '';
   }).fail(function (error) {
+    
+    // On fail, show error
     console.log(foresquareSearchURL);
     console.log(error);
     if(foreSquareAlert != error.responseJSON.meta.errorDetail) {
@@ -73,7 +76,7 @@ let LocationMarker = function (info) {
     foreSquareAlert = error.responseJSON.meta.errorDetail;
   });
 
-  // Let's create a marker per location of our marker list (markers.js) and add it into our markers array
+  // Marker location & info of list (markers.js)
   this.marker = new google.maps.Marker({
     position: this.position,
     title: this.title,
@@ -81,10 +84,10 @@ let LocationMarker = function (info) {
     icon: defaultIcon
   });
 
-  // Let's filter through our markers
+  // Filter through markers
   self.filterMarkers = ko.computed(function () {
 
-    // Let's set the marker and extend it's bounds (showListings)
+    // Shows only chosen marker(s)
     if (self.visible() === true) {
       self.marker.setMap(map);
       bounds.extend(self.marker.position);
@@ -94,36 +97,36 @@ let LocationMarker = function (info) {
     }
   });
 
-  // Let's create an 'click' event to open an infoWindow when a marker is clicked on
+  // InfoWindow appears onclick
   this.marker.addListener('click', function () {
     populateInfoWindow(this, self.street, self.city, self.phone, infoWindow);
     toggleBounce(this);
     map.panTo(this.getPosition());
   });
 
-  // Let's add a mouseover 'click' event to highlight the icon
+  // Highlight marker on mouseover
   this.marker.addListener('mouseover', function () {
     this.setIcon(highlightedIcon);
   });
 
-  // And when the user no longer hovers on the marker, revert the colour back
+  // Reverts back to orange when cursor leaves marker
   this.marker.addListener('mouseout', function () {
     this.setIcon(defaultIcon);
   });
 
-  // Let's show an item info when the marker is selected from the list (markers.js)
+  // Shows location info onclick
   this.show = function (location) {
     google.maps.event.trigger(self.marker, 'click');
   };
 
-  // Let's add the bounce animation to the item that is selected/clicked on
+  // Adds bounce animation onclick of marker
   this.bounce = function (place) {
     google.maps.event.trigger(self.marker, 'click');
   };
 
 };
 
-// Let's add the ViewModel
+/* View Model */
 let ViewModel = function () {
   let self = this;
 
@@ -131,18 +134,18 @@ let ViewModel = function () {
 
   this.mapList = ko.observableArray([]);
 
-  // Let's add location markers for each marker (markers.js = location{lat, lng})
+  // For each marker, adds html code into index.html per marker
   markers.forEach(function (location) {
     self.mapList.push(new LocationMarker(location));
   });
 
-  // Let's make the markers appear on the map
+  // Shows selected markers dependent on search query
   this.locationList = ko.computed(function () {
     let searchFilter = self.searchItem().toLowerCase();
     if (searchFilter) {
       return ko.utils.arrayFilter(self.mapList(), function (location) {
-        let str = location.title.toLowerCase();
-        let result = str.includes(searchFilter);
+        let current = location.title.toLowerCase();
+        let result = current.includes(searchFilter);
         location.visible(result);
         return result;
       });
@@ -154,11 +157,11 @@ let ViewModel = function () {
   }, self);
 };
 
-// Let's populate the infoWindow when a marker is clicked on.
+// Populate the infoWindow with info
 function populateInfoWindow(marker, street, city, phone, infowindow) {
   if (infowindow.marker != marker) {
 
-    // This clears the infoWindow content to give the street view to load
+    // Clears the infoWindow content to show street view of marker
     infowindow.setContent('');
     infowindow.marker = marker;
 
@@ -167,21 +170,22 @@ function populateInfoWindow(marker, street, city, phone, infowindow) {
       infowindow.marker = null;
     });
     let streetViewService = new google.maps.StreetViewService();
-    let radius = 50;
+    let radius = 30;
 
-    let windowContent = '<h4>' + marker.title + '</h4>' +
+    // HTML/CSS to infoWindow
+    let infoWindowContent = '<h4>' + marker.title + '</h4>' +
       '<p>' + street + "<br>" + city + '<br>' + phone + "</p>";
 
-    // Once streetView is loaded, compute the position of the streetView image, then it should calculate the heading,
-    // and get the panorama from that marker and set the options
+    // Loads streetView
     let getStreetView = function (info, status) {
       if (status == google.maps.StreetViewStatus.OK) {
-        let nearStreetViewLocation = info.location.latLng;
+        let StreetViewLocationRequest = info.location.latLng;
         let heading = google.maps.geometry.spherical.computeHeading(
-          nearStreetViewLocation, marker.position);
-        infowindow.setContent(windowContent + '<div id="pano"></div>');
+          StreetViewLocationRequest, marker.position);
+
+        infowindow.setContent(infoWindowContent + '<div id="pano"></div>');
         let panoramaOptions = {
-          position: nearStreetViewLocation,
+          position: StreetViewLocationRequest,
           pov: {
             heading: heading,
             pitch: 30
@@ -190,18 +194,17 @@ function populateInfoWindow(marker, street, city, phone, infowindow) {
         let panorama = new google.maps.StreetViewPanorama(
           document.getElementById('pano'), panoramaOptions);
       } else {
-        infowindow.setContent(windowContent + '<div style="color: red">No Street View Found, please try again!</div>');
+        infowindow.setContent(infoWindowContent + '<div style="color: red">No Street View Found, please try again.</div>');
       }
     };
 
-    // Use streetView service to get the closest pov within 30 meters from the location
+    // Use streetView to show closes street view option
     streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-    
-    // Now let's make sure the infoWindow opens on the correct marker
     infowindow.open(map, marker);
   }
 }
 
+// Toggles bounce animation 
 function toggleBounce(marker) {
   if (marker.getAnimation() !== null) {
     marker.setAnimation(null);
@@ -213,7 +216,7 @@ function toggleBounce(marker) {
   }
 }
 
-// Let's add colour and shape to our markers
+// Marker shape
 function makeMarkerIcon(markerColor) {
   let markerImage = new google.maps.MarkerImage(
     'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + markerColor +

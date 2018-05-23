@@ -1,4 +1,4 @@
-// Model View:
+/* Model View */
 let markers = [{
         title: 'Exhebition Trade Centre',
         location: {

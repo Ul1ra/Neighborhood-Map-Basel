@@ -9,10 +9,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" media="screen" href="./css/styles.css" />
   
-  <!-- Added jQuery Library, just in case -->
+  <!-- jQuery Library, just in case -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   
-  <!-- JavaScript files used in this project -->
   <script src="js/libraries/knockout.min.js"></script>
   <script src="js/app.js"></script>
   <script src="js/markers.js"></script>
@@ -24,22 +23,20 @@
 </head>
 
 <body>
-<!-- Here is the header with a Canton logo of Basel-City, the title, and the location input search field -->
+<!-- Header with title, img & search input field -->
 <div id="nav-header">
   <span id="title">
     <img id="bs" src="img/BS.png" alt="Basel-Stadt-Logo">&nbsp;Basel-Stadt, Switzerland</span>
     <input type="text" id="search-input" placeholder="Search location..." name="q" data-bind="textInput: searchItem, valueUpdate: 'afterkeydown'">
 </div>
 
-<!-- Here is the list div containing all the markers,
-I've removed the button as it is not necessary -->
+<!-- List below header showing markers -->
 <div id="nav-list" data-bind="css: { searching: searchItem }">
   <div id="list" data-bind="foreach: locationList">
     <div id="item-container"><a href="#" id="list-item" data-bind="text: title, click: show"></a></div>
   </div>
 </div>
 
-<!-- Here is the map that will be rendered through the API URL -->
 <div id="map"></div>
 
 </body>
