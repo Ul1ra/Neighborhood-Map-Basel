@@ -1,0 +1,99 @@
+body {
+  font-family: sans-serif;
+  margin: 0px;
+}
+
+#nav-header {
+  display: flex;
+}
+
+img {
+  height: 30px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+#title {
+  font-size: 30px;
+  width: 50%;
+  color: #fff;
+  background: #000;
+  align-content: center;
+  vertical-align: center;
+}
+
+#search-input {
+  max-height: 50px;
+  width: 50%;
+  font-size: 1em;
+  padding: 5px 20px;
+}
+
+#nav-list {
+  width: 300px;
+  position: absolute;
+  top: 50px;
+  left: 0px;
+  z-index: 1;
+  background-color: #fff;
+  padding: 5px 0px 20px 5px;
+}
+
+#list-item {
+  margin: 10px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#item-container {
+  margin-top: 10px;
+}
+
+#list-item:focus {
+  color: #fff;
+  background-color: rgb(34, 34, 34);
+  border-color: rgb(34, 34, 34);
+}
+
+#list-item:hover {
+  color: #f5f5f5;
+  background-color: #555;
+}
+
+#map {
+  background-color: #fff;
+  text-align: center;
+  height: 100vh;
+  width: 100%;
+}
+
+#pano {
+  width: 200px;
+  height: 200px;
+}
+
+/* media quary here and remove this */
+
+@media (max-width: 623px) {
+  #nav-list {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background-image: url('img/hb.png');
+  }
+  #nav-list:hover, #nav-list.searching {
+    width: 300px;
+    height: auto;
+    padding: 5px 0px 20px 5px;
+  }
+  #nav-list #list {
+    display: none;
+  }
+  #nav-list:hover #list,
+  #nav-list.searching #list {
+    display: block;
+  }
+}
