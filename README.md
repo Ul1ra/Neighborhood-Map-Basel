@@ -19,7 +19,7 @@ This is the final project of my Udacity Frontend Web Developer Nanodegree! This 
 
 ### How to use 
 
-0. Check out the demo here: *Add demo link here*
+0. Check out the demo here: <a href="https://ul1ra.github.io/Neighborhood-Map-Basel/">https://ul1ra.github.io/Neighborhood-Map-Basel/</a>
 1. Clone or download the zip file of the repository
 2. Open `index.html` into 
 
