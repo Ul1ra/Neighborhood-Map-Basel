@@ -60,11 +60,15 @@ let LocationMarker = function (info) {
    + '&query=' + this.title;
 
    // JSON request from Foursquare
-  $.getJSON(foresquareSearchURL).done(function (info) {
-    let results = info.response.venues[0];
-    self.street = results.location.formattedAddress[0] ? results.location.formattedAddress[0] : '';
-    self.city = results.location.formattedAddress[1] ? results.location.formattedAddress[1] : '';
-    self.phone = results.contact.formattedPhone ? results.contact.formattedPhone : '';
+  $.getJSON(foresquareSearchURL).done(function (result) {
+    if(result.response.venues.length > 0 ) {
+      let results = result.response.venues[0];
+      self.street = results.location.formattedAddress[0] ? results.location.formattedAddress[0] : 'N/A';
+      self.city = results.location.formattedAddress[1] ? results.location.formattedAddress[1] : 'N/A';
+    } else {
+      alert('Could not find entry on forsquare for: ' + info.title);
+      console.log(foresquareSearchURL);
+    }
   }).fail(function (error) {
     
     // On fail, show error
@@ -99,7 +103,7 @@ let LocationMarker = function (info) {
 
   // InfoWindow appears onclick
   this.marker.addListener('click', function () {
-    populateInfoWindow(this, self.street, self.city, self.phone, infoWindow);
+    populateInfoWindow(this, self.street, self.city, infoWindow);
     toggleBounce(this);
     map.panTo(this.getPosition());
   });
@@ -158,7 +162,7 @@ let ViewModel = function () {
 };
 
 // Populate the infoWindow with info
-function populateInfoWindow(marker, street, city, phone, infowindow) {
+function populateInfoWindow(marker, street, city, infowindow) {
   if (infowindow.marker != marker) {
 
     // Clears the infoWindow content to show street view of marker
@@ -174,7 +178,7 @@ function populateInfoWindow(marker, street, city, phone, infowindow) {
 
     // HTML/CSS to infoWindow
     let infoWindowContent = '<h4>' + marker.title + '</h4>' +
-      '<p>' + street + "<br>" + city + '<br>' + phone + "</p>";
+      '<p>' + street + "<br>" + city + '<br>' + "</p>";
 
     // Loads streetView
     let getStreetView = function (info, status) {

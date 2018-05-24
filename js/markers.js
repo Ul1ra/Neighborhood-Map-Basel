@@ -1,11 +1,5 @@
 /* Model View */
-let markers = [{
-        title: 'Exhebition Trade Centre',
-        location: {
-            lat: 47.564199,
-            lng: 7.601262
-        }
-    },
+let markers = [
     {
         title: 'Basel SBB Trainstation',
         location: {
@@ -27,14 +21,6 @@ let markers = [{
         location: {
             lat: 47.547416,
             lng: 7.578764
-        }
-
-    },
-    {
-        title: 'Fine Art Museum Basel',
-        location: {
-            lat: 47.554032,
-            lng: 7.594193
         }
 
     },
