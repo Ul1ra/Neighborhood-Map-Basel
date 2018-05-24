@@ -1,3 +1,5 @@
+// jshint esversion: 6
+
 // Declare our global variables
 let map;
 let infoWindow;
@@ -34,9 +36,8 @@ let LocationMarker = function (info) {
 
   this.title = info.title;
   this.position = info.location;
-  this.street = '',
-    this.city = '',
-    this.phone = '';
+  this.street = '';
+  this.city = '';
 
   this.visible = ko.observable(true);
 
@@ -51,13 +52,7 @@ let LocationMarker = function (info) {
   let clientSecret = 'TGVUBOID1KLIUBADAERVHHSXEZPGVADAXXMEWWFGPIFR3JP2';
 
   // Request informaiton from Foursquare API
-  let foresquareSearchURL = 'https://api.foursquare.com/v2/venues/search?ll=' 
-   + this.position.lat + ',' 
-   + this.position.lng 
-   + '&client_id=' + clientID 
-   + '&client_secret=' + clientSecret 
-   + '&v=20180522' 
-   + '&query=' + this.title;
+  let foresquareSearchURL = 'https://api.foursquare.com/v2/venues/search?ll=' + this.position.lat + ',' + this.position.lng + '&client_id=' + clientID + '&client_secret=' + clientSecret + '&v=20180522' + '&query=' + this.title;
 
    // JSON request from Foursquare
   $.getJSON(foresquareSearchURL).done(function (result) {
